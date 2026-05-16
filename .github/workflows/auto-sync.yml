@@ -1,0 +1,17 @@
+name: Auto Sync Fork
+
+on:
+  schedule:
+    - cron: '0 2 * * *' # 每天 UTC 时间凌晨 2 点（北京时间上午 10 点）自动运行一次
+  workflow_dispatch: # 允许你在网页端手动点击运行
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Sync from Upstream
+        run: gh repo sync $GITHUB_REPOSITORY --source cmliu/edgetunnel
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
